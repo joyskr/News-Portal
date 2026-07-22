@@ -6,7 +6,12 @@ export async function getArticles(params = {}) {
     if (value) url.searchParams.set(key, value);
   });
 
-  const response = await fetch(url, { next: { revalidate: 300 } });
-  if (!response.ok) return { articles: [] };
-  return response.json();
+  try {
+    const response = await fetch(url, { next: { revalidate: 300 } });
+    if (!response.ok) return { articles: [] };
+    return response.json();
+  } catch (error) {
+    console.warn(`Unable to fetch articles from ${url}:`, error.message);
+    return { articles: [] };
+  }
 }

@@ -35,7 +35,7 @@ npm run lint --workspace frontend
 npm run build --workspace frontend
 ```
 
-GitHub Actions runs backend syntax checks, backend tests, frontend linting, and a frontend build on pushes to `main`/`master` and pull requests.
+GitHub Actions installs workspace dependencies without lifecycle scripts, then runs backend syntax checks, backend tests, frontend linting, and a frontend build on pushes to `main`/`master` and pull requests.
 
 ## Railway backend deployment
 

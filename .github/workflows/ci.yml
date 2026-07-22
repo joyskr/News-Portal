@@ -19,9 +19,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Backend syntax check
         run: npm run lint --workspace backend
       - name: Backend tests
@@ -40,9 +39,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Frontend lint
         run: npm run lint --workspace frontend
       - name: Frontend build
