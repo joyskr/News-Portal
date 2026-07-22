@@ -59,7 +59,7 @@ The backend runs database migrations on startup and refreshes RSS feeds immediat
 3. Use build command `npm run build`.
 4. Use publish directory `.next`.
 5. Set `NEXT_PUBLIC_API_URL` to your Railway backend URL.
-6. If Netlify has an old failed deploy, trigger **Clear cache and deploy site** after changing build settings or dependencies.
+
 
 ## API endpoints
 
