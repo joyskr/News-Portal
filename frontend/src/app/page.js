@@ -1,12 +1,38 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import ArticleGrid from '../components/ArticleGrid';
 import AuthPanel from '../components/AuthPanel';
 import { getArticles } from '../lib/api';
 
-export default async function Home({ searchParams }) {
-  const params = await searchParams;
-  const { articles } = await getArticles({ category: params?.category, search: params?.search });
+export default function Home() {
+  const [articles, setArticles] = useState([]);
+  const [category, setCategory] = useState('');
+  const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const categories = ['World', 'Business', 'Technology', 'Sports', 'General'];
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const nextCategory = params.get('category') || '';
+    const nextSearch = params.get('search') || '';
+    setCategory(nextCategory);
+    setSearch(nextSearch);
+    setIsLoading(true);
+
+    getArticles({ category: nextCategory, search: nextSearch })
+      .then((data) => setArticles(data.articles || []))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  function submitSearch(event) {
+    event.preventDefault();
+    const params = new URLSearchParams();
+    if (category) params.set('category', category);
+    if (search.trim()) params.set('search', search.trim());
+    window.location.href = params.toString() ? `/?${params.toString()}` : '/';
+  }
 
   return (
     <main>
@@ -15,8 +41,8 @@ export default async function Home({ searchParams }) {
           <p className="eyebrow">Self-updating news portal</p>
           <h1>Latest headlines from trusted RSS sources.</h1>
           <p>Browse freely without an account. Registration is optional for future personalization features.</p>
-          <form className="search" action="/">
-            <input name="search" placeholder="Search headlines" defaultValue={params?.search || ''} />
+          <form className="search" action="/" onSubmit={submitSearch}>
+            <input name="search" placeholder="Search headlines" value={search} onChange={(event) => setSearch(event.target.value)} />
             <button>Search</button>
           </form>
         </div>
@@ -30,7 +56,7 @@ export default async function Home({ searchParams }) {
         ))}
       </nav>
 
-      <ArticleGrid articles={articles} />
+      {isLoading ? <p className="empty">Loading latest articles...</p> : <ArticleGrid articles={articles} />}
     </main>
   );
 }

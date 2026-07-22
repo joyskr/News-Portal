@@ -7,7 +7,7 @@ export async function getArticles(params = {}) {
   });
 
   try {
-    const response = await fetch(url, { next: { revalidate: 300 } });
+    const response = await fetch(url);
     if (!response.ok) return { articles: [] };
     return response.json();
   } catch (error) {

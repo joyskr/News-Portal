@@ -57,7 +57,7 @@ The backend runs database migrations on startup and refreshes RSS feeds immediat
 1. Create a Netlify site from this repository.
 2. Set the base directory to `frontend`.
 3. Use build command `npm run build`.
-4. Use publish directory `.next`.
+4. Use publish directory `out`.
 5. Set `NEXT_PUBLIC_API_URL` to your Railway backend URL.
 
 

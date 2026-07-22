@@ -41,7 +41,7 @@ export default function ArticleGrid({ articles }) {
         <article className="card" key={article.id}>
           {article.image_url && <img src={article.image_url} alt="" />}
           <div>
-            <span>{article.category} · {article.source}</span>
+            <span>{article.category} &middot; {article.source}</span>
             <h2><a href={article.url} target="_blank" rel="noreferrer">{article.title}</a></h2>
             <p>{article.summary}</p>
             <footer>
