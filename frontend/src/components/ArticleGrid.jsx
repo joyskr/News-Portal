@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { API_URL } from '../lib/api';
 
-export default function ArticleGrid({ articles }) {
+export default function ArticleGrid({ articles, emptyMessage }) {
   const [token, setToken] = useState(null);
   const [saved, setSaved] = useState(new Set());
 
@@ -36,7 +36,7 @@ export default function ArticleGrid({ articles }) {
 
   return (
     <section className="grid">
-      {articles.length === 0 && <p className="empty">No articles yet. Trigger /api/refresh on the backend after configuring RSS feeds.</p>}
+      {articles.length === 0 && <p className="empty">{emptyMessage}</p>}
       {articles.map((article) => (
         <article className="card" key={article.id}>
           {article.image_url && <img src={article.image_url} alt="" />}

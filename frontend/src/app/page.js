@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ArticleGrid from '../components/ArticleGrid';
 import AuthPanel from '../components/AuthPanel';
-import { getArticles } from '../lib/api';
+import { getArticleCategories, getArticles } from '../lib/api';
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const categories = ['World', 'Business', 'Technology', 'Sports', 'General'];
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -29,6 +29,10 @@ export default function Home() {
         setError(data.error || '');
       })
       .finally(() => setIsLoading(false));
+
+    getArticleCategories().then((data) => {
+      if (!data.error) setCategories(data.categories);
+    });
   }, []);
 
   function submitSearch(event) {
@@ -37,6 +41,13 @@ export default function Home() {
     if (category) params.set('category', category);
     if (search.trim()) params.set('search', search.trim());
     window.location.href = params.toString() ? `/?${params.toString()}` : '/';
+  }
+
+  function emptyMessage() {
+    if (category || search) {
+      return 'No articles match this filter. Choose All or try a different search.';
+    }
+    return 'No articles yet. Trigger /api/refresh on the backend after configuring RSS feeds.';
   }
 
   return (
@@ -56,14 +67,14 @@ export default function Home() {
 
       <nav className="categories">
         <Link href="/">All</Link>
-        {categories.map((category) => (
-          <Link key={category} href={`/?category=${encodeURIComponent(category)}`}>{category}</Link>
+        {categories.map((item) => (
+          <Link key={item} href={`/?category=${encodeURIComponent(item)}`}>{item}</Link>
         ))}
       </nav>
 
       {isLoading && <p className="empty">Loading latest articles...</p>}
       {!isLoading && error && <p className="empty error">{error}</p>}
-      {!isLoading && !error && <ArticleGrid articles={articles} />}
+      {!isLoading && !error && <ArticleGrid articles={articles} emptyMessage={emptyMessage()} />}
     </main>
   );
 }

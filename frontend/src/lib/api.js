@@ -31,3 +31,11 @@ export async function getArticles(params = {}) {
     };
   }
 }
+
+export async function getArticleCategories() {
+  const data = await getArticles({ limit: 100 });
+  if (data.error) return { categories: [], error: data.error };
+
+  const categories = [...new Set((data.articles || []).map((article) => article.category).filter(Boolean))];
+  return { categories };
+}
