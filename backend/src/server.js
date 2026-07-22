@@ -9,7 +9,31 @@ import { requireRefreshToken } from './security.js';
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN?.split(',') || true, credentials: true }));
+const configuredOrigins = (process.env.FRONTEND_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+
+  const normalizedOrigin = origin.replace(/\/$/, '');
+  if (configuredOrigins.includes(normalizedOrigin)) return true;
+
+  try {
+    const { hostname } = new URL(normalizedOrigin);
+    return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.netlify.app');
+  } catch {
+    return false;
+  }
+}
+
+app.use(cors({
+  origin(origin, callback) {
+    callback(null, isAllowedOrigin(origin));
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: '1mb' }));
 app.use(optionalAuth);
 
