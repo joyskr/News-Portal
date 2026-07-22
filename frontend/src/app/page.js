@@ -11,6 +11,7 @@ export default function Home() {
   const [category, setCategory] = useState('');
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
   const categories = ['World', 'Business', 'Technology', 'Sports', 'General'];
 
   useEffect(() => {
@@ -20,9 +21,13 @@ export default function Home() {
     setCategory(nextCategory);
     setSearch(nextSearch);
     setIsLoading(true);
+    setError('');
 
     getArticles({ category: nextCategory, search: nextSearch })
-      .then((data) => setArticles(data.articles || []))
+      .then((data) => {
+        setArticles(data.articles || []);
+        setError(data.error || '');
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -56,7 +61,9 @@ export default function Home() {
         ))}
       </nav>
 
-      {isLoading ? <p className="empty">Loading latest articles...</p> : <ArticleGrid articles={articles} />}
+      {isLoading && <p className="empty">Loading latest articles...</p>}
+      {!isLoading && error && <p className="empty error">{error}</p>}
+      {!isLoading && !error && <ArticleGrid articles={articles} />}
     </main>
   );
 }
