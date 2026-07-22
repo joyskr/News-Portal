@@ -55,12 +55,11 @@ The backend runs database migrations on startup and refreshes RSS feeds immediat
 ## Netlify frontend deployment
 
 1. Create a Netlify site from this repository.
-2. Set the **package directory** to `frontend`.
-3. Leave the base directory empty unless Netlify auto-fills it from the package directory.
-4. Use build command `npm run build`.
-5. Use publish directory `.next`.
-6. Set `NEXT_PUBLIC_API_URL` to your Railway backend URL.
-7. If Netlify has an old failed deploy, trigger **Clear cache and deploy site** after changing build settings or dependencies.
+2. Set the base directory to `frontend`.
+3. Use build command `npm run build`.
+4. Use publish directory `.next`.
+5. Set `NEXT_PUBLIC_API_URL` to your Railway backend URL.
+
 
 ## API endpoints
 
