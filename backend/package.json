@@ -1,0 +1,19 @@
+{
+  "name": "news-portal-backend",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "lint": "node --check src/server.js && node --check src/db.js && node --check src/news.js && node --check src/newsUtils.js && node --check src/security.js && node --check src/passwords.js && node --check src/tokens.js && node --check src/auth.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.13.1",
+    "rss-parser": "^3.13.0"
+  }
+}

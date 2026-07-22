@@ -1,0 +1,16 @@
+{
+  "name": "news-portal-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --workspace frontend & npm run dev --workspace backend",
+    "lint": "npm run lint --workspace frontend && npm run lint --workspace backend",
+    "start": "npm run start --workspace backend",
+    "test": "npm test --workspace backend",
+    "build": "npm run build --workspace frontend",
+    "ci": "npm run lint && npm test && npm run build"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}
