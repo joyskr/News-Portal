@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import ArticleGrid from '../components/ArticleGrid';
 import AuthPanel from '../components/AuthPanel';
 import { getArticles } from '../lib/api';
@@ -23,9 +24,9 @@ export default async function Home({ searchParams }) {
       </section>
 
       <nav className="categories">
-        <a href="/">All</a>
+        <Link href="/">All</Link>
         {categories.map((category) => (
-          <a key={category} href={`/?category=${encodeURIComponent(category)}`}>{category}</a>
+          <Link key={category} href={`/?category=${encodeURIComponent(category)}`}>{category}</Link>
         ))}
       </nav>
 
