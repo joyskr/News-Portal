@@ -60,6 +60,7 @@ The backend runs database migrations on startup and refreshes RSS feeds immediat
 4. Use publish directory `.next`.
 5. Set `NEXT_PUBLIC_API_URL` to your Railway backend URL.
 
+
 ## API endpoints
 
 - `GET /health` - Health check.
