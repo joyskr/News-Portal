@@ -43,6 +43,11 @@ export default function Home() {
     window.location.href = params.toString() ? `/?${params.toString()}` : '/';
   }
 
+  function reloadCategory(event, href) {
+    event.preventDefault();
+    window.location.href = href;
+  }
+
   function emptyMessage() {
     if (category || search) {
       return 'No articles match this filter. Choose All or try a different search.';
@@ -66,9 +71,15 @@ export default function Home() {
       </section>
 
       <nav className="categories">
-        <Link href="/">All</Link>
+        <Link href="/" onClick={(event) => reloadCategory(event, '/')}>All</Link>
         {categories.map((item) => (
-          <Link key={item} href={`/?category=${encodeURIComponent(item)}`}>{item}</Link>
+          <Link
+            key={item}
+            href={`/?category=${encodeURIComponent(item)}`}
+            onClick={(event) => reloadCategory(event, `/?category=${encodeURIComponent(item)}`)}
+          >
+            {item}
+          </Link>
         ))}
       </nav>
 
