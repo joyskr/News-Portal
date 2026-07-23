@@ -13,6 +13,7 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -57,17 +58,26 @@ export default function Home() {
 
   return (
     <main>
+      <header className="topbar">
+        <Link className="brand" href="/">Open News Portal</Link>
+        <button className="auth-trigger" type="button" onClick={() => setIsAuthOpen(true)}>
+          Login / Register
+        </button>
+      </header>
+
       <section className="hero">
-        <div>
+        <div className="hero-copy">
           <p className="eyebrow">Self-updating news portal</p>
-          <h1>Latest headlines from trusted RSS sources.</h1>
-          <p>Browse freely without an account. Registration is optional for future personalization features.</p>
+          <h1>News organized for quick reading.</h1>
           <form className="search" action="/" onSubmit={submitSearch}>
             <input name="search" placeholder="Search headlines" value={search} onChange={(event) => setSearch(event.target.value)} />
             <button>Search</button>
           </form>
         </div>
-        <AuthPanel />
+        <aside className="ad-slot ad-rail" aria-label="Advertisement">
+          <span>Advertisement</span>
+          <strong>Brand message</strong>
+        </aside>
       </section>
 
       <nav className="categories">
@@ -91,6 +101,7 @@ export default function Home() {
       {isLoading && <p className="empty">Loading latest articles...</p>}
       {!isLoading && error && <p className="empty error">{error}</p>}
       {!isLoading && !error && <ArticleGrid articles={articles} emptyMessage={emptyMessage()} />}
+      {isAuthOpen && <AuthPanel onClose={() => setIsAuthOpen(false)} />}
     </main>
   );
 }
