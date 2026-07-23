@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { API_URL } from '../lib/api';
 
 export default function ArticleGrid({ articles, emptyMessage }) {
@@ -37,23 +37,31 @@ export default function ArticleGrid({ articles, emptyMessage }) {
   return (
     <section className="grid">
       {articles.length === 0 && <p className="empty">{emptyMessage}</p>}
-      {articles.map((article) => (
-        <article className="card" key={article.id}>
-          {article.image_url && <img src={article.image_url} alt="" />}
-          <div>
-            <span>{article.category} &middot; {article.source}</span>
-            <h2><a href={article.url} target="_blank" rel="noreferrer">{article.title}</a></h2>
-            <p>{article.summary}</p>
-            <footer>
-              {article.published_at && <time dateTime={article.published_at}>{new Date(article.published_at).toLocaleString()}</time>}
-              {token && (
-                <button className="save-button" type="button" onClick={() => toggleBookmark(article.id)}>
-                  {saved.has(article.id) ? 'Saved' : 'Save'}
-                </button>
-              )}
-            </footer>
-          </div>
-        </article>
+      {articles.map((article, index) => (
+        <Fragment key={article.id}>
+          <article className="card">
+            {article.image_url && <img src={article.image_url} alt="" />}
+            <div>
+              <span>{article.category} &middot; {article.source}</span>
+              <h2><a href={article.url} target="_blank" rel="noreferrer">{article.title}</a></h2>
+              <p>{article.summary}</p>
+              <footer>
+                {article.published_at && <time dateTime={article.published_at}>{new Date(article.published_at).toLocaleString()}</time>}
+                {token && (
+                  <button className="save-button" type="button" onClick={() => toggleBookmark(article.id)}>
+                    {saved.has(article.id) ? 'Saved' : 'Save'}
+                  </button>
+                )}
+              </footer>
+            </div>
+          </article>
+          {index === 5 && (
+            <aside className="ad-slot ad-inline" aria-label="Advertisement">
+              <span>Advertisement</span>
+              <strong>Sponsored placement</strong>
+            </aside>
+          )}
+        </Fragment>
       ))}
     </section>
   );

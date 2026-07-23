@@ -24,6 +24,11 @@ button, .categories a { border: 0; border-radius: 14px; background: var(--brand)
 .link-button { background: transparent; color: var(--brand); padding-left: 0; }
 .categories { display: flex; gap: 10px; flex-wrap: wrap; margin: 28px 0; }
 .categories a { background: #e8f1ff; color: var(--brand); }
+.ad-slot { background: #fffaf0; border: 1px dashed #d7a84c; color: #6f4d08; border-radius: 18px; padding: 22px; text-align: center; }
+.ad-slot span { display: block; color: #9a7425; font-size: .78rem; font-weight: 800; text-transform: uppercase; }
+.ad-slot strong { display: block; margin-top: 6px; color: #3f2b06; }
+.ad-leaderboard { margin: 0 0 28px; min-height: 96px; display: grid; place-content: center; }
+.ad-inline { min-height: 230px; display: grid; place-content: center; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
 .card { overflow: hidden; }
 .card img { width: 100%; height: 170px; object-fit: cover; background: #d8e0ec; }

@@ -3,12 +3,18 @@ import test from 'node:test';
 import { categoryFor, feedUrls, imageFrom, mediaUrl, truncate } from '../src/newsUtils.js';
 
 test('feedUrls trims and removes empty values', () => {
-  assert.deepEqual(feedUrls(' https://a.test/rss.xml, ,https://b.test/feed '), ['https://a.test/rss.xml', 'https://b.test/feed']);
+  assert.deepEqual(feedUrls(' https://a.test/rss.xml, ,https://b.test/feed ', { includeDefaults: false }), ['https://a.test/rss.xml', 'https://b.test/feed']);
+});
+
+test('feedUrls adds curated default category feeds', () => {
+  assert.ok(feedUrls('').includes('https://techcrunch.com/category/artificial-intelligence/feed/'));
 });
 
 test('categoryFor maps common feed titles', () => {
   assert.equal(categoryFor('World News'), 'World');
   assert.equal(categoryFor('Latest Technology'), 'Technology');
+  assert.equal(categoryFor('TechCrunch', 'https://techcrunch.com/category/artificial-intelligence/feed/'), 'AI');
+  assert.equal(categoryFor('BBC News', 'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml'), 'Science');
   assert.equal(categoryFor('Finance Headlines'), 'Business');
   assert.equal(categoryFor('Football Sports'), 'Sports');
   assert.equal(categoryFor('Local Updates'), 'General');
@@ -27,5 +33,5 @@ test('imageFrom prefers enclosure then media fields', () => {
 
 test('truncate strips html, normalizes whitespace, and caps length', () => {
   assert.equal(truncate('<p>Hello   world</p>', 20), 'Hello world');
-  assert.equal(truncate('1234567890', 6), '12345…');
+  assert.equal(truncate('1234567890', 6), '123...');
 });

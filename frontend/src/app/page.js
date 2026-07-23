@@ -72,6 +72,11 @@ export default function Home() {
         ))}
       </nav>
 
+      <aside className="ad-slot ad-leaderboard" aria-label="Advertisement">
+        <span>Advertisement</span>
+        <strong>Premium sponsor space</strong>
+      </aside>
+
       {isLoading && <p className="empty">Loading latest articles...</p>}
       {!isLoading && error && <p className="empty error">{error}</p>}
       {!isLoading && !error && <ArticleGrid articles={articles} emptyMessage={emptyMessage()} />}

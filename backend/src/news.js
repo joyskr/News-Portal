@@ -16,7 +16,7 @@ export async function refreshNews() {
     try {
       const feed = await parser.parseURL(url);
       const source = feed.title || new URL(url).hostname;
-      const category = categoryFor(feed.title);
+      const category = categoryFor(feed.title, url);
 
       for (const item of feed.items.slice(0, 25)) {
         if (!item.title || !item.link) continue;
